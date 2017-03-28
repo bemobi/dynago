@@ -30,16 +30,20 @@ This is required for all aws requests to ensure:
 	3. It also handles authentication without sending or revealing the shared secret
 */
 type AwsSigner struct {
-	AccessKey string
-	SecretKey string
-	Region    string
-	Service   string
+	AccessKey    string
+	SecretKey    string
+	Region       string
+	SessionToken string
+	Service      string
 }
 
 func (info *AwsSigner) SignRequest(request *http.Request, bodyBytes []byte) {
 	now := time.Now().UTC()
 	isoDateSmash := now.Format("20060102T150405Z")
 	request.Header.Add("x-amz-date", isoDateSmash)
+	if info.SessionToken != "" {
+		request.Header.Add("X-Amz-Security-Token", info.SessionToken)
+	}
 	canonicalHash, signedHeaders := canonicalRequest(request, bodyBytes)
 	credentialScope := now.Format("20060102") + "/" + info.Region + "/" + info.Service + "/aws4_request"
 	stringToSign := algorithm + "\n" + isoDateSmash + "\n" + credentialScope + "\n" + canonicalHash

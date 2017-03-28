@@ -26,6 +26,9 @@ Run a query:
 
 ```go
 client := dynago.NewAwsClient(region, accessKey, secretKey)
+// or you can use below if you have AWS credential values in ENV,
+// in case of running on AWS Lambda, etc.
+// client := dynago.NewAwsClientFromEnv()
 
 query := client.Query(table).
 	KeyConditionExpression("UserId = :uid", dynago.P(":uid", 42)).

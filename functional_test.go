@@ -32,14 +32,14 @@ func (f *functional) setUp(t *testing.T) (*assert.Assertions, *dynago.Client) {
 		if endpoint == "" {
 			t.SkipNow()
 		}
-		executor := dynago.NewAwsExecutor(endpoint, ge("REGION", "us-east-1"), ge("ACCESS_KEY", "AKIAEXAMPLE"), ge("SECRET_KEY", "SECRETEXAMPLE"))
+		executor := dynago.NewAwsExecutor(endpoint, ge("REGION", "us-east-1"), ge("ACCESS_KEY", "AKIAEXAMPLE"), ge("SECRET_KEY", "SECRETEXAMPLE"), "")
 		f.client = dynago.NewClient(executor)
 		makeTables(t, f.client)
 
 		// Add some posts
 		writer := f.client.BatchWrite()
 		for i := 100; i < 118; i++ {
-			writer = writer.Put("Posts", dynago.Document{"UserId": 42, "Dated": i})
+			writer = writer.Put("Posts", dynago.Document{"UserId": 42, "Dated": i, "NonPrimary": i})
 		}
 		_, err := writer.Execute()
 		assert.NoError(t, err)
@@ -319,17 +319,17 @@ func TestQueryPagination(t *testing.T) {
 	// Paginate the posts
 	q := client.Query("Posts").
 		KeyConditionExpression("UserId = :uid", dynago.P(":uid", 42)).
-		FilterExpression("Dated <> :d", dynago.P(":d", 101)).
+		FilterExpression("NonPrimary <> :d", dynago.P(":d", 101)).
 		Limit(10)
 	results, err := q.Execute()
 	assert.NoError(err)
-	assert.Equal(9, len(results.Items))
+	assert.Equal(10, len(results.Items))
 	assert.Equal(dynago.Number("42"), results.Items[0]["UserId"])
 	assert.Equal(dynago.Number("100"), results.Items[0]["Dated"])
 
 	// Check that we skipped something.
 	assert.Equal(10, results.ScannedCount)
-	assert.Equal(9, results.Count)
+	assert.Equal(10, results.Count)
 
 	assert.NotNil(results.LastEvaluatedKey)
 	assert.Equal(2, len(results.LastEvaluatedKey))

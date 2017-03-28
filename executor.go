@@ -41,12 +41,13 @@ type AwsRequester interface {
 }
 
 // Create an AWS executor with a specified endpoint and AWS parameters.
-func NewAwsExecutor(endpoint, region, accessKey, secretKey string) *AwsExecutor {
+func NewAwsExecutor(endpoint, region, accessKey, secretKey, sessionToken string) *AwsExecutor {
 	signer := aws.AwsSigner{
-		Region:    region,
-		AccessKey: accessKey,
-		SecretKey: secretKey,
-		Service:   "dynamodb",
+		Region:       region,
+		AccessKey:    accessKey,
+		SecretKey:    secretKey,
+		SessionToken: sessionToken,
+		Service:      "dynamodb",
 	}
 	requester := &aws.RequestMaker{
 		Endpoint:       aws.FixEndpointUrl(endpoint),
