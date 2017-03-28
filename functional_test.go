@@ -6,8 +6,8 @@ import (
 
 	"github.com/stretchr/testify/assert"
 
-	dynago "gopkg.in/underarmour/dynago.v1"
-	"gopkg.in/underarmour/dynago.v1/schema"
+	dynago "gopkg.in/underarmour/dynago.v2"
+	"gopkg.in/underarmour/dynago.v2/schema"
 )
 
 type functional struct {

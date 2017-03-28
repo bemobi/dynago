@@ -2,8 +2,9 @@ package dynago_test
 
 import (
 	"fmt"
-	"gopkg.in/underarmour/dynago.v1"
-	"gopkg.in/underarmour/dynago.v1/schema"
+
+	"gopkg.in/underarmour/dynago.v2"
+	"gopkg.in/underarmour/dynago.v2/schema"
 )
 
 func ExampleClient_BatchGet(client *dynago.Client) {
