@@ -32,7 +32,12 @@ func (f *functional) setUp(t *testing.T) (*assert.Assertions, *dynago.Client) {
 		if endpoint == "" {
 			t.SkipNow()
 		}
-		executor := dynago.NewAwsExecutor(endpoint, ge("REGION", "us-east-1"), ge("ACCESS_KEY", "AKIAEXAMPLE"), ge("SECRET_KEY", "SECRETEXAMPLE"))
+		executor := dynago.NewAwsExecutor(dynago.ExecutorConfig{
+			Endpoint:  endpoint,
+			Region:    ge("REGION", "us-east-1"),
+			AccessKey: ge("ACCESS_KEY", "AKIAEXAMPLE"),
+			SecretKey: ge("SECRET_KEY", "SECRETEXAMPLE"),
+		})
 		f.client = dynago.NewClient(executor)
 		makeTables(t, f.client)
 

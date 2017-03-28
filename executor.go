@@ -40,22 +40,34 @@ type AwsRequester interface {
 	MakeRequest(target string, body []byte) ([]byte, error)
 }
 
-// Create an AWS executor with a specified endpoint and AWS parameters.
-func NewAwsExecutor(endpoint, region, accessKey, secretKey string) *AwsExecutor {
-	return newAwsExecutorToken(endpoint, region, accessKey, secretKey, "")
+// v2: Re-think this a config struct so we don't have to break semver or make tons of new constructors.
+// XXX TODO: The naming of this struct is not currently set in stone, we may refactor some of this.
+type ExecutorConfig struct {
+	Region       string // Required: the AWS region you're currently in, e.g. "us-east-1"
+	AccessKey    string // AWS Access key
+	SecretKey    string // AWS Secret key
+	SessionToken string // Optional: AWS session token (used in AWS Lambda)
+
+	// The endpoint on which to contact DynamoDB. If left blank, will default
+	// to https://dynamodb.<region>.amazonaws.com/
+	Endpoint string
 }
 
 // Create an AWS executor with a specified endpoint and AWS parameters.
-func newAwsExecutorToken(endpoint, region, accessKey, secretKey, sessionToken string) *AwsExecutor {
+func NewAwsExecutor(config ExecutorConfig) *AwsExecutor {
+	if config.Endpoint == "" {
+		config.Endpoint = "https://dynamodb." + config.Region + ".amazonaws.com/"
+	}
+
 	signer := aws.AwsSigner{
-		Region:       region,
-		AccessKey:    accessKey,
-		SecretKey:    secretKey,
-		SessionToken: sessionToken,
+		Region:       config.Region,
+		AccessKey:    config.AccessKey,
+		SecretKey:    config.SecretKey,
+		SessionToken: config.SessionToken,
 		Service:      "dynamodb",
 	}
 	requester := &aws.RequestMaker{
-		Endpoint:       aws.FixEndpointUrl(endpoint),
+		Endpoint:       aws.FixEndpointUrl(config.Endpoint),
 		Signer:         &signer,
 		BuildError:     buildError,
 		DebugRequests:  Debug.HasFlag(DebugRequests),

@@ -40,5 +40,11 @@ func NewAwsClientFromEnv() (*Client, error) {
 
 	sessionToken := os.Getenv("AWS_SESSION_TOKEN")
 	endpoint := "https://dynamodb." + region + ".amazonaws.com/"
-	return NewClient(newAwsExecutorToken(endpoint, region, accessKey, secretKey, sessionToken)), nil
+	return NewClient(NewAwsExecutor(ExecutorConfig{
+		Endpoint:     endpoint,
+		Region:       region,
+		AccessKey:    accessKey,
+		SecretKey:    secretKey,
+		SessionToken: sessionToken,
+	})), nil
 }

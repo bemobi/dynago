@@ -12,8 +12,11 @@ accessKey is your amazon access key ID.
 secretKey is your amazon secret key ID.
 */
 func NewAwsClient(region string, accessKey string, secretKey string) *Client {
-	endpoint := "https://dynamodb." + region + ".amazonaws.com/"
-	return NewClient(NewAwsExecutor(endpoint, region, accessKey, secretKey))
+	return NewClient(NewAwsExecutor(ExecutorConfig{
+		Region:    region,
+		AccessKey: accessKey,
+		SecretKey: secretKey,
+	}))
 }
 
 /*
