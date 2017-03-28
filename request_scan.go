@@ -16,6 +16,12 @@ func newScan(c *Client, table string) *Scan {
 	return &Scan{c, req}
 }
 
+// ConsistentRead does a strongly consistent scan if strong is true. (defaults to false)
+func (s Scan) ConsistentRead(strong bool) *Scan {
+	s.req.ConsistentRead = &strong
+	return &s
+}
+
 /*
 ExclusiveStartKey sets the start key (effectively the offset cursor).
 */

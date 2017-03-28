@@ -347,7 +347,7 @@ func TestQueryPagination(t *testing.T) {
 func TestScanBasic(t *testing.T) {
 	assert, client := funcTest.setUp(t)
 	assert.NoError(batchAddPosts(client, 50, 100, 120))
-	scan := client.Scan("Posts").Limit(20)
+	scan := client.Scan("Posts").ConsistentRead(true).Limit(20)
 	result, err := scan.Execute()
 	assert.NoError(err)
 	assert.NotEqual(0, len(result.Items))
