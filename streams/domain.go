@@ -1,8 +1,8 @@
 package streams
 
 import (
-	"gopkg.in/underarmour/dynago.v1"
-	"gopkg.in/underarmour/dynago.v1/schema"
+	"github.com/bemobi/dynago"
+	"github.com/bemobi/dynago/schema"
 )
 
 // Stream is the compact representation of a stream.

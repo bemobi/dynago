@@ -1,7 +1,7 @@
 Dynago
 ======
 
-[![Build Status](https://travis-ci.org/underarmour/dynago.svg?branch=master)](https://travis-ci.org/underarmour/dynago) [![GoDoc](https://godoc.org/gopkg.in/underarmour/dynago.v1?status.svg)](https://godoc.org/gopkg.in/underarmour/dynago.v1)
+[![Build Status](https://travis-ci.org/underarmour/dynago.svg?branch=master)](https://travis-ci.org/underarmour/dynago) [![GoDoc](https://godoc.org/github.com/bemobi/dynago?status.svg)](https://godoc.org/github.com/bemobi/dynago)
 
 Dynago is a DynamoDB client API for Go.
 
@@ -15,9 +15,9 @@ Installation
 ------------
 Install using `go get`:
 
-    go get gopkg.in/underarmour/dynago.v1
+    go get github.com/bemobi/dynago
 
-Docs are at http://godoc.org/gopkg.in/underarmour/dynago.v1
+Docs are at http://godoc.org/github.com/bemobi/dynago
 
 Example
 -------
@@ -73,10 +73,10 @@ client.PutItem("person", doc).Execute()
  * Lists are supported using [`dynago.List`][dynagoList]
  * `time.Time` is only accepted if it's a UTC time, and is marshaled to a dynamo string in iso8601 compact format. It comes back as a string, an can be got back using `GetTime()` on `Document`.
 
-[dynagoDocument]: http://godoc.org/gopkg.in/underarmour/dynago.v1#Document
-[dynagoList]: http://godoc.org/gopkg.in/underarmour/dynago.v1#List
-[dynagoNumber]: http://godoc.org/gopkg.in/underarmour/dynago.v1#Number
-[dynagoStringSet]: http://godoc.org/gopkg.in/underarmour/dynago.v1#StringSet
+[dynagoDocument]: http://godoc.org/github.com/bemobi/dynago#Document
+[dynagoList]: http://godoc.org/github.com/bemobi/dynago#List
+[dynagoNumber]: http://godoc.org/github.com/bemobi/dynago#Number
+[dynagoStringSet]: http://godoc.org/github.com/bemobi/dynago#StringSet
 
 Debugging
 ---------
@@ -90,8 +90,8 @@ dynago.Debug = dynago.DebugRequests | dynago.DebugResponses
 
 If you would like to change how the debugging is printed, please set [`dynago.DebugFunc`][dynagoDebugFunc] to your preference.
 
-[dynagoDebug]: http://godoc.org/gopkg.in/underarmour/dynago.v1#Debug
-[dynagoDebugFunc]: http://godoc.org/gopkg.in/underarmour/dynago.v1#DebugFunc
+[dynagoDebug]: http://godoc.org/github.com/bemobi/dynago#Debug
+[dynagoDebugFunc]: http://godoc.org/github.com/bemobi/dynago#DebugFunc
 
 Version Compatibility
 ---------------------

@@ -3,8 +3,8 @@ package dynago
 import (
 	"encoding/json"
 
-	"gopkg.in/underarmour/dynago.v1/internal/aws"
-	"gopkg.in/underarmour/dynago.v1/schema"
+	"github.com/bemobi/dynago/internal/aws"
+	"github.com/bemobi/dynago/schema"
 )
 
 /*
@@ -43,6 +43,11 @@ type AwsRequester interface {
 // Create an AWS executor with a specified endpoint and AWS parameters.
 func NewAwsExecutor(endpoint, region, accessKey, secretKey string) *AwsExecutor {
 	return newAwsExecutorToken(endpoint, region, accessKey, secretKey, "")
+}
+
+// Create an AWS executor with a specified endpoint and AWS parameters.
+func NewAwsExecutorWithToken(endpoint, region, accessKey, secretKey, sessionToken string) *AwsExecutor {
+	return newAwsExecutorToken(endpoint, region, accessKey, secretKey, sessionToken)
 }
 
 // Create an AWS executor with a specified endpoint and AWS parameters.
